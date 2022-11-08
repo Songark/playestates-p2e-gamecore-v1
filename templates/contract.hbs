@@ -1,0 +1,131 @@
+# {{{name}}}
+
+{{#if natspec.devdoc}}> {{natspec.devdoc}}{{/if}}
+
+## 1.Contents
+{{#if natspec.title}}Name: {{natspec.title}}<p>{{/if}}
+{{!-- {{#if natspec.userdoc}}Author: {{natspec.userdoc}}<p>{{/if}} --}}
+<!-- START doctoc -->
+<!-- END doctoc -->
+
+## 2.Variables
+{{#if ownVariables}}
+
+| Arg | Type | Description |
+| --- | --- | --- |
+{{#ownVariables}}
+{{name}} | {{ type }} | {{natspec.userdoc}}
+{{/ownVariables}}
+{{/if}}
+
+## 3.Modifiers
+{{#if ownModifiers}}
+{{#ownModifiers}}
+### {{name}}
+{{#if natspec.userdoc}}{{natspec.userdoc}}{{/if}}
+{{#if natspec.devdoc}}> {{natspec.devdoc}}{{/if}}
+
+*Declaration:*
+```solidity
+modifier {{name}}{{#if natspec.params}}(
+{{#natspec.params}}
+{{#lookup ../args.types @index}}{{/lookup}} {{param}}{{#if @last}}{{else}},{{/if}}
+{{/natspec.params}}
+){{/if}}
+```
+
+{{#if natspec.params}}
+*Args:*
+| Arg | Type | Description |
+| --- | --- | --- |
+{{#natspec.params}}
+|`{{param}}` | {{#lookup ../args.types @index}}{{/lookup}} | {{description}} {{~"|"}}
+{{~/natspec.params}}
+{{/if}}
+
+{{/ownModifiers}}
+{{/if}}
+
+## 4.Functions
+{{#if ownFunctions}}
+{{#ownFunctions}}
+
+### {{name}}
+{{#if natspec.userdoc}}{{natspec.userdoc}}{{/if}}
+{{#if natspec.devdoc}}> {{natspec.devdoc}}{{/if}}
+
+*Declaration:*
+```solidity
+function {{name}}(
+{{#natspec.params}}
+{{#lookup ../args.types @index}}{{/lookup}} {{param}}{{#if @last}}{{else}},{{/if}}
+{{/natspec.params}}
+) {{visibility}}{{#astNode.modifiers}} {{modifierName.name}}{{/astNode.modifiers}}{{#if outputs}} returns
+({{outputs}}){{/if}}
+```
+{{#if astNode.modifiers}}
+*Modifiers:*
+| Modifier |
+| --- |
+{{#astNode.modifiers}}
+| {{modifierName.name}} |
+{{/astNode.modifiers}}
+{{/if}}
+
+{{#if natspec.params}}
+*Args:*
+| Arg | Type | Description |
+| --- | --- | --- |
+{{#natspec.params}}
+|`{{param}}` | {{#lookup ../args.types @index}}{{/lookup}} | {{description}}
+{{~/natspec.params}}
+{{/if}}
+
+{{#if natspec.returns}}
+*Returns:*
+| Arg | Description |
+| --- | --- |
+{{#natspec.returns}}
+|`{{param}}` | {{description}}
+{{~/natspec.returns}}
+{{/if}}
+
+{{/ownFunctions}}
+{{/if}}
+
+## 5.Events
+{{#if ownEvents}}
+{{#ownEvents}}
+### {{name}}
+{{#if natspec.userdoc}}{{natspec.userdoc}}{{/if}}
+{{#if natspec.devdoc}}> {{natspec.devdoc}}{{/if}}
+
+
+{{#if natspec.params}}
+*Params:*
+| Param | Type | Indexed | Description |
+| --- | --- | :---: | --- |
+{{#natspec.params}}
+|`{{param}}` | {{lookup ../args.types @index}} | {{#with (lookup ../astNode.parameters.parameters @index)}}{{#if
+indexed}}:white_check_mark:{{/if}}{{/with}} | {{description}} {{~-~}}
+{{/natspec.params}}
+{{/if}}
+
+{{/ownEvents}}
+{{/if}}
+
+## 6.Structs
+{{#each ownStructs}}
+### `{{name}}`
+{{#each members}}
+{{type}} {{name}}
+{{/each}}
+{{/each}}
+
+## 7.Enums
+{{#each ownEnums}}
+### `{{name}}`
+{{#each members}}
+{{name}}
+{{/each}}
+{{/each}}
